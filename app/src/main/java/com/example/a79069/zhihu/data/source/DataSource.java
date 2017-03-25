@@ -1,0 +1,39 @@
+package com.example.a79069.zhihu.data.source;
+
+
+import com.example.a79069.zhihu.data.NewsSimpleList;
+
+import okhttp3.Callback;
+
+/**
+ * Created by 79069 on 2017/3/23.
+ */
+
+public interface DataSource {
+    interface JSONCallback {
+        void onSuccess(String jsonData);
+
+        void onFailed();
+    }
+
+    interface NewsSimpleListCallback{
+        void onSuccess(NewsSimpleList newsSimpleList);
+
+        void onFailed();
+    }
+
+
+    /**
+     * 获取新闻列表
+     * @param callback
+     */
+    void getNews(NewsSimpleListCallback callback);
+
+    /**
+     * 获取详细页面
+     * @param newsId
+     * @param callback
+     */
+    void getNewsDetail(String newsId , JSONCallback callback);
+
+}
