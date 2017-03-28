@@ -1,6 +1,7 @@
 package com.example.a79069.zhihu.data.source;
 
 
+import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 
 import okhttp3.Callback;
@@ -22,18 +23,24 @@ public interface DataSource {
         void onFailed();
     }
 
+    interface NewsDetailCallback{
+        void onSuccess(NewsDetail newsDetail);
+
+        void onFailed();
+    }
+
 
     /**
      * 获取新闻列表
      * @param callback
      */
-    void getNews(NewsSimpleListCallback callback);
+    void getNews(String address , NewsSimpleListCallback callback);
 
     /**
      * 获取详细页面
      * @param newsId
      * @param callback
      */
-    void getNewsDetail(String newsId , JSONCallback callback);
+    void getNewsDetail(String newsId , NewsDetailCallback callback);
 
 }

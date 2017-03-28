@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zhihu</string>
+    <string name="app_name">知乎日报</string>
 
     <string name="share_this_news">分享</string>
 </resources>

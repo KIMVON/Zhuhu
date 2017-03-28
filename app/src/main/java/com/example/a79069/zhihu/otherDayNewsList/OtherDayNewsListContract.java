@@ -1,4 +1,4 @@
-package com.example.a79069.zhihu.mainTask;
+package com.example.a79069.zhihu.otherDayNewsList;
 
 import android.os.Handler;
 
@@ -7,28 +7,23 @@ import com.example.a79069.zhihu.BaseView;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 
 /**
- * Created by 79069 on 2017/3/23.
+ * Created by 79069 on 2017/3/27.
  */
 
-public interface MainContract {
+public interface OtherDayNewsListContract {
     interface Presenter extends BasePresenter{
-        void refreshNews();
+        void refreshNews(Handler handler , String date);
 
 
 
-        void onLoad(Handler handler);
+        void onLoad(Handler handler , String date);
+
     }
 
     interface View extends BaseView<Presenter>{
         void showNewsDetail(String newsId);
 
-        void showSearchActivity();
-
-        void showMyFavoritesActivity();
-
         void setAdapter(NewsSimpleList newsSimpleList);
-
-
 
     }
 }

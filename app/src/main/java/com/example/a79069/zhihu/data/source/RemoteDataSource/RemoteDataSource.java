@@ -1,5 +1,6 @@
 package com.example.a79069.zhihu.data.source.RemoteDataSource;
 
+import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 import com.example.a79069.zhihu.data.source.DataSource;
@@ -39,13 +40,13 @@ public class RemoteDataSource implements DataSource {
      * @param callback
      */
     @Override
-    public void getNews(final NewsSimpleListCallback callback) {
+    public void getNews(String address , final NewsSimpleListCallback callback) {
         checkNotNull(callback);
 
-        HttpUtil.sendRequestWithHttpURLConntection("http://news-at.zhihu.com/api/4/news/latest", new JSONCallback() {
+        HttpUtil.sendRequestWithHttpURLConntection(address , new JSONCallback() {
             @Override
             public void onSuccess(String jsonData) {
-                callback.onSuccess(parseJSONString(jsonData));
+                callback.onSuccess(parseJSONNewsList(jsonData));
             }
 
             @Override
@@ -62,11 +63,21 @@ public class RemoteDataSource implements DataSource {
      * @param callback
      */
     @Override
-    public void getNewsDetail(String newsId ,JSONCallback callback) {
+    public void getNewsDetail(String newsId , final NewsDetailCallback callback) {
         checkNotNull(newsId);
         checkNotNull(callback);
 
-        HttpUtil.sendRequestWithHttpURLConntection("http://news-at.zhihu.com/api/4/news/"+newsId , callback);
+        HttpUtil.sendRequestWithHttpURLConntection("http://news-at.zhihu.com/api/4/news/" + newsId, new JSONCallback() {
+            @Override
+            public void onSuccess(String jsonData) {
+                callback.onSuccess(parseNewsDetail(jsonData));
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
     }
 
 
@@ -75,7 +86,7 @@ public class RemoteDataSource implements DataSource {
      * @param jsonData
      * @return
      */
-    public NewsSimpleList parseJSONString(String jsonData) {
+    public NewsSimpleList parseJSONNewsList(String jsonData) {
         NewsSimpleList newsSimpleList = new NewsSimpleList();
         List<NewsSimple> newsSimples = newsSimpleList.getNewsSimpleList();
         try {
@@ -107,6 +118,20 @@ public class RemoteDataSource implements DataSource {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public NewsDetail parseNewsDetail(String jsonData){
+        NewsDetail newsDetail = new NewsDetail();
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            newsDetail.setShareURL(jsonObject.getString("share_url"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return newsDetail;
     }
 
 

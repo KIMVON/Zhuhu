@@ -10,13 +10,19 @@
         android:theme="@style/AppTheme">
 
 
-        <activity android:name=".mainTask.MainActivity">
+        <activity android:name=".newsList.NewsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".newsDetail.NewsDetailActivity"/>
+
+        <activity android:name=".dateSelect.DateActivity" android:parentActivityName=".newsList.NewsListActivity"/>
+
+        <activity android:name=".otherDayNewsList.OtherDayNewsListActivity" android:parentActivityName=".dateSelect.DateActivity"/>
     </application>
 
 

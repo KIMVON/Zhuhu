@@ -23,12 +23,12 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public void getNews(NewsSimpleListCallback callback) {
+    public void getNews(String address , NewsSimpleListCallback callback) {
         callback.onFailed();
     }
 
     @Override
-    public void getNewsDetail(String newsId , JSONCallback callback) {
+    public void getNewsDetail(String newsId , NewsDetailCallback callback) {
 
     }
 

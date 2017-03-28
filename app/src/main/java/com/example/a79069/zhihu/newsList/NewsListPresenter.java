@@ -1,4 +1,4 @@
-package com.example.a79069.zhihu.mainTask;
+package com.example.a79069.zhihu.newsList;
 
 import android.os.Handler;
 import android.os.Message;
@@ -11,12 +11,12 @@ import com.example.a79069.zhihu.data.source.DataSource;
  * Created by 79069 on 2017/3/24.
  */
 
-public class MainPresenter implements MainContract.Presenter {
+public class NewsListPresenter implements NewsListContract.Presenter {
 
     private AppRepository mAppRepository;
-    private MainContract.View mMainFragment;
+    private NewsListContract.View mMainFragment;
 
-    public MainPresenter(AppRepository appRepository , MainContract.View mainFragmentView){
+    public NewsListPresenter(AppRepository appRepository , NewsListContract.View mainFragmentView){
 
         mAppRepository = appRepository;
 
@@ -30,8 +30,22 @@ public class MainPresenter implements MainContract.Presenter {
      * 刷新新闻
      */
     @Override
-    public void refreshNews() {
+    public void refreshNews(final Handler handler) {
+        mAppRepository.getNews("http://news-at.zhihu.com/api/4/news/latest" , new DataSource.NewsSimpleListCallback() {
+            @Override
+            public void onSuccess(NewsSimpleList newsSimpleList) {
+                Message message = Message.obtain();
+                message.obj = newsSimpleList;
+                message.what = 1;
 
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
     }
 
 
@@ -41,7 +55,7 @@ public class MainPresenter implements MainContract.Presenter {
      */
     @Override
     public void onLoad(final Handler handler) {
-        mAppRepository.getNews(new DataSource.NewsSimpleListCallback() {
+        mAppRepository.getNews("http://news-at.zhihu.com/api/4/news/latest" , new DataSource.NewsSimpleListCallback() {
             @Override
             public void onSuccess(NewsSimpleList newsSimpleList) {
                 Message message = Message.obtain();

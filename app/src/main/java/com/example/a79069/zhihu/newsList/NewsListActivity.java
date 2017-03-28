@@ -1,4 +1,4 @@
-package com.example.a79069.zhihu.mainTask;
+package com.example.a79069.zhihu.newsList;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,9 +13,9 @@ import com.example.a79069.zhihu.util.ActivityUtils;
  * Created by 79069 on 2017/3/23.
  */
 
-public class MainActivity extends AppCompatActivity {
+public class NewsListActivity extends AppCompatActivity {
 
-    private MainContract.Presenter mPresenter;
+    private NewsListContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
 
         if (fragment == null ) {
-            fragment = MainFragment.newInstance();
+            fragment = NewsListFragment.newInstance();
 
             ActivityUtils.addFragmentToActivity(fragmentManager , fragment , R.id.fragment_container);
         }
-        mPresenter = new MainPresenter(ActivityUtils.getAppRepository() , (MainContract.View) fragment);
+        mPresenter = new NewsListPresenter(ActivityUtils.getAppRepository() , (NewsListContract.View) fragment);
     }
 
     @Override

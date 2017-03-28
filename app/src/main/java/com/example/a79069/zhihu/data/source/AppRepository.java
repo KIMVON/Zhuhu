@@ -1,5 +1,6 @@
 package com.example.a79069.zhihu.data.source;
 
+import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 import com.example.a79069.zhihu.data.source.LocalDataSource.LocalDataSource;
 import com.example.a79069.zhihu.data.source.RemoteDataSource.RemoteDataSource;
@@ -39,8 +40,8 @@ public class AppRepository implements DataSource {
      * @param callback
      */
     @Override
-    public void getNews(final NewsSimpleListCallback callback) {
-        mRemoteDataSource.getNews(new NewsSimpleListCallback() {
+    public void getNews(String address , final NewsSimpleListCallback callback) {
+        mRemoteDataSource.getNews(address , new NewsSimpleListCallback() {
             @Override
             public void onSuccess(NewsSimpleList newsSimpleList) {
 
@@ -61,8 +62,19 @@ public class AppRepository implements DataSource {
      * @param callback
      */
     @Override
-    public void getNewsDetail(String newsId, JSONCallback callback) {
+    public void getNewsDetail(String newsId, final NewsDetailCallback callback) {
+        mRemoteDataSource.getNewsDetail(newsId, new NewsDetailCallback() {
+            @Override
+            public void onSuccess(NewsDetail newsDetail) {
 
+                callback.onSuccess(newsDetail);
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
     }
 
 }
