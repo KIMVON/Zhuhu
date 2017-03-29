@@ -28,13 +28,13 @@ import static android.content.ContentValues.TAG;
  */
 
 public class NewsDetailFragment extends Fragment implements NewsDetailContract.View {
-    private static final String NEWS_DETAIL_ID = "com.example.a79069.zhihu.newsDetail.fragment.id";
+    private static final String NEWS_DETAIL_ADDRESS = "com.example.a79069.zhihu.newsDetail.fragment.address";
 
-    public static Fragment newInstance(String id) {
+    public static Fragment newInstance(String address) {
         NewsDetailFragment fragment = new NewsDetailFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable(NEWS_DETAIL_ID, id);
+        bundle.putSerializable(NEWS_DETAIL_ADDRESS, address);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -42,7 +42,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
 
     private NewsDetailContract.Presenter mPresenter;
 
-    private String mNewsId;
+    private String mNewsAddress;
 
     private WebView mWebView;
 
@@ -64,7 +64,8 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mNewsId = (String) getArguments().getSerializable(NEWS_DETAIL_ID);
+        mNewsAddress = (String) getArguments().getSerializable(NEWS_DETAIL_ADDRESS);
+
 
         setHasOptionsMenu(true);
     }
@@ -92,7 +93,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.onLoad(mNewsId, mHandler);
+        mPresenter.onLoad(mNewsAddress , mHandler);
     }
 
 
@@ -113,7 +114,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
     }
 
 
-    
+
     @Override
     public void setPresenter(NewsDetailContract.Presenter presenter) {
         mPresenter = presenter;

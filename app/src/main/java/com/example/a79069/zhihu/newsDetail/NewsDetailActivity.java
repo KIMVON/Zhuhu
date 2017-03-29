@@ -17,13 +17,14 @@ import com.example.a79069.zhihu.util.ActivityUtils;
  */
 
 public class NewsDetailActivity extends AppCompatActivity {
-    private static final String NEWS_DETAIL_ID = "com.example.a79069.zhihu.newsDetail.id";
+    private static final String NEWS_DETAIL_ADDRESS = "com.example.a79069.zhihu.newsDetail.address";
 
-    public static Intent newIntent(Context context , String id){
+    public static Intent newIntent(Context context , String address){
+
 
         Intent intent = new Intent(context , NewsDetailActivity.class);
 
-        intent.putExtra(NEWS_DETAIL_ID , id);
+        intent.putExtra(NEWS_DETAIL_ADDRESS  , address);
 
         return intent;
     }
@@ -37,13 +38,15 @@ public class NewsDetailActivity extends AppCompatActivity {
 
 
 
-        String id = getIntent().getStringExtra(NEWS_DETAIL_ID);
+        String address = getIntent().getStringExtra(NEWS_DETAIL_ADDRESS);
+
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
 
         if (fragment == null){
-            fragment = NewsDetailFragment.newInstance(id);
+            fragment = NewsDetailFragment.newInstance(address);
 
             ActivityUtils.addFragmentToActivity(fragmentManager , fragment , R.id.fragment_container);
         }

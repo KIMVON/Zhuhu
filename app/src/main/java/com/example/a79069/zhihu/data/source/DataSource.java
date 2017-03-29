@@ -30,11 +30,16 @@ public interface DataSource {
     }
 
 
+
     /**
      * 获取新闻列表
      * @param callback
      */
     void getNews(String address , NewsSimpleListCallback callback);
+
+
+    void getHotNewsList(final NewsSimpleListCallback callback);
+
 
     /**
      * 获取详细页面

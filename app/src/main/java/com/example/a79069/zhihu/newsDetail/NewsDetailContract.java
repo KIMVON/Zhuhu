@@ -11,7 +11,7 @@ import com.example.a79069.zhihu.BaseView;
 
 public interface NewsDetailContract {
     interface Presenter extends BasePresenter{
-        void onLoad(String newId , Handler handler);
+        void onLoad(String address , Handler handler);
 
 
     }

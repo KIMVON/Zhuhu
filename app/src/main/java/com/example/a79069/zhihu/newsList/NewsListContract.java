@@ -29,5 +29,7 @@ public interface NewsListContract {
 
         void setAdapter(NewsSimpleList newsSimpleList);
 
+        void startService();
+
     }
 }

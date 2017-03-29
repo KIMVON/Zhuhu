@@ -28,6 +28,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void getHotNewsList(NewsSimpleListCallback callback) {
+
+    }
+
+    @Override
     public void getNewsDetail(String newsId , NewsDetailCallback callback) {
 
     }

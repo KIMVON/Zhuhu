@@ -1,5 +1,7 @@
 package com.example.a79069.zhihu.data.source;
 
+import android.util.Log;
+
 import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 import com.example.a79069.zhihu.data.source.LocalDataSource.LocalDataSource;
@@ -11,6 +13,8 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by 79069 on 2017/3/23.
@@ -57,13 +61,33 @@ public class AppRepository implements DataSource {
     }
 
     /**
-     * 获取详细页面
-     * @param newsId
+     * 获取热点消息
      * @param callback
      */
     @Override
-    public void getNewsDetail(String newsId, final NewsDetailCallback callback) {
-        mRemoteDataSource.getNewsDetail(newsId, new NewsDetailCallback() {
+    public void getHotNewsList(final NewsSimpleListCallback callback) {
+        mRemoteDataSource.getHotNewsList(new NewsSimpleListCallback() {
+            @Override
+            public void onSuccess(NewsSimpleList newsSimpleList) {
+
+                callback.onSuccess(newsSimpleList);
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
+    }
+
+    /**
+     * 获取详细页面
+     * @param address
+     * @param callback
+     */
+    @Override
+    public void getNewsDetail(String address, final NewsDetailCallback callback) {
+        mRemoteDataSource.getNewsDetail(address, new NewsDetailCallback() {
             @Override
             public void onSuccess(NewsDetail newsDetail) {
 

@@ -23,6 +23,12 @@
         <activity android:name=".dateSelect.DateActivity" android:parentActivityName=".newsList.NewsListActivity"/>
 
         <activity android:name=".otherDayNewsList.OtherDayNewsListActivity" android:parentActivityName=".dateSelect.DateActivity"/>
+
+
+        <service android:name=".app.MyService"
+                 android:enabled="true"
+                 android:exported="false">
+        </service>
     </application>
 
 

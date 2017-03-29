@@ -1,5 +1,7 @@
 package com.example.a79069.zhihu.data.source.RemoteDataSource;
 
+import android.util.Log;
+
 import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
@@ -14,8 +16,9 @@ import org.json.JSONObject;
 import java.util.List;
 
 
-
+import static android.content.ContentValues.TAG;
 import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by 79069 on 2017/3/23.
  */
@@ -23,12 +26,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class RemoteDataSource implements DataSource {
     private static RemoteDataSource INSTANCE;
 
-    private RemoteDataSource(){
+    private RemoteDataSource() {
 
     }
 
-    public static RemoteDataSource getInstance(){
-        if (INSTANCE == null){
+    public static RemoteDataSource getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new RemoteDataSource();
         }
         return INSTANCE;
@@ -37,13 +40,14 @@ public class RemoteDataSource implements DataSource {
 
     /**
      * 获取新闻列表
+     *
      * @param callback
      */
     @Override
-    public void getNews(String address , final NewsSimpleListCallback callback) {
+    public void getNews(String address, final NewsSimpleListCallback callback) {
         checkNotNull(callback);
 
-        HttpUtil.sendRequestWithHttpURLConntection(address , new JSONCallback() {
+        HttpUtil.sendRequestWithHttpURLConntection(address, new JSONCallback() {
             @Override
             public void onSuccess(String jsonData) {
                 callback.onSuccess(parseJSONNewsList(jsonData));
@@ -58,16 +62,41 @@ public class RemoteDataSource implements DataSource {
 
 
     /**
-     * 获取详细页面
-     * @param newsId
+     * 获取热点消息
+     *
      * @param callback
      */
     @Override
-    public void getNewsDetail(String newsId , final NewsDetailCallback callback) {
-        checkNotNull(newsId);
+    public void getHotNewsList(final NewsSimpleListCallback callback) {
         checkNotNull(callback);
 
-        HttpUtil.sendRequestWithHttpURLConntection("http://news-at.zhihu.com/api/4/news/" + newsId, new JSONCallback() {
+        HttpUtil.sendRequestWithHttpURLConntection("http://news-at.zhihu.com/api/3/news/hot", new JSONCallback() {
+            @Override
+            public void onSuccess(String jsonData) {
+
+                callback.onSuccess(parseHotNewsList(jsonData));
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
+    }
+
+
+    /**
+     * 获取详细页面
+     *
+     * @param address
+     * @param callback
+     */
+    @Override
+    public void getNewsDetail(String address, final NewsDetailCallback callback) {
+        checkNotNull(address , "该地址为null");
+        checkNotNull(callback);
+
+        HttpUtil.sendRequestWithHttpURLConntection(address, new JSONCallback() {
             @Override
             public void onSuccess(String jsonData) {
                 callback.onSuccess(parseNewsDetail(jsonData));
@@ -83,6 +112,7 @@ public class RemoteDataSource implements DataSource {
 
     /**
      * 解析JSON
+     *
      * @param jsonData
      * @return
      */
@@ -95,7 +125,7 @@ public class RemoteDataSource implements DataSource {
             newsSimpleList.setDate(jsonObject.getString("date"));
             JSONArray jsonArray = jsonObject.getJSONArray("stories");
 
-            for (int i=0 ; i < jsonArray.length() ; i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
 
 
@@ -112,6 +142,32 @@ public class RemoteDataSource implements DataSource {
                 newsSimples.add(newsSimple);
 
             }
+            return newsSimpleList;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public NewsSimpleList parseHotNewsList(String jsonData) {
+        NewsSimpleList newsSimpleList = new NewsSimpleList();
+        List<NewsSimple> newsSimples = newsSimpleList.getNewsSimpleList();
+
+
+        try {
+            JSONObject jsonObjectAll = new JSONObject(jsonData);
+            JSONArray jsonArray = jsonObjectAll.getJSONArray("recent");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                NewsSimple newsSimple = new NewsSimple();
+                newsSimple.setTitle(jsonObject.getString("title"));
+                newsSimple.setId(jsonObject.getString("news_id"));
+                newsSimple.setImage("thumbnail");
+                newsSimple.setShareUrl("url");
+
+                newsSimples.add(newsSimple);
+            }
 
             return newsSimpleList;
         } catch (JSONException e) {
@@ -120,8 +176,7 @@ public class RemoteDataSource implements DataSource {
         return null;
     }
 
-
-    public NewsDetail parseNewsDetail(String jsonData){
+    public NewsDetail parseNewsDetail(String jsonData) {
         NewsDetail newsDetail = new NewsDetail();
 
         try {
@@ -133,6 +188,4 @@ public class RemoteDataSource implements DataSource {
 
         return newsDetail;
     }
-
-
 }

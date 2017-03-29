@@ -1,5 +1,7 @@
 package com.example.a79069.zhihu.newsList;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,8 @@ import com.example.a79069.zhihu.util.ActivityUtils;
  */
 
 public class NewsListActivity extends AppCompatActivity {
+
+
 
     private NewsListContract.Presenter mPresenter;
 
@@ -31,10 +35,33 @@ public class NewsListActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(fragmentManager , fragment , R.id.fragment_container);
         }
         mPresenter = new NewsListPresenter(ActivityUtils.getAppRepository() , (NewsListContract.View) fragment);
+
+
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

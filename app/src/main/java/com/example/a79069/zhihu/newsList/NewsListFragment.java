@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a79069.zhihu.R;
+import com.example.a79069.zhihu.app.MyService;
 import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 import com.example.a79069.zhihu.dateSelect.DateActivity;
@@ -57,7 +58,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1){
-                Log.d(TAG, "handleMessage: "+ msg.obj);
+
                 setAdapter((NewsSimpleList) msg.obj);
 
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -71,8 +72,10 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
 
-
+        //启动服务
+        startService();
     }
 
     @Nullable
@@ -121,15 +124,22 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         }
     }
 
+    @Override
+    public void startService() {
+        Intent intent = MyService.newIntent(getActivity());
+
+        getActivity().startService(intent);
+    }
+
 
     /**
      * 启动详细页面
-     * @param newsId
+     * @param address
      */
     @Override
-    public void showNewsDetail(String newsId) {
+    public void showNewsDetail(String address) {
 
-        Intent intent = NewsDetailActivity.newIntent(getActivity() , newsId);
+        Intent intent = NewsDetailActivity.newIntent(getActivity() , address);
 
         startActivity(intent);
     }
@@ -210,8 +220,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
 
             mTitleTextView.setText(title);
             String image = imageURL.substring(2 , imageURL.length()-2).replaceAll("\\\\" , "") ;
-            Log.d(TAG, "onBindView: "+imageURL);
-            Log.d(TAG, "onBindView: "+image);
+
 
             Glide.with(getActivity()).load(image).into(mImageView);
         }
@@ -219,7 +228,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
 
         @Override
         public void onClick(View view) {
-            showNewsDetail(mNewsSimple.getId());
+            showNewsDetail("http://news-at.zhihu.com/api/4/news/" + mNewsSimple.getId());
         }
     }
 
