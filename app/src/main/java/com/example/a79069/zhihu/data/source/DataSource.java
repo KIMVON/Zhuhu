@@ -17,6 +17,13 @@ public interface DataSource {
         void onFailed();
     }
 
+    interface ImageURLCallback{
+        void onSuccess(String address);
+
+        void onFailed();
+    }
+
+
     interface NewsSimpleListCallback{
         void onSuccess(NewsSimpleList newsSimpleList);
 

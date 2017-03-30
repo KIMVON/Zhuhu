@@ -39,6 +39,16 @@ public class RemoteDataSource implements DataSource {
 
 
     /**
+     * 获取照片地址
+     * @param address
+     * @param callback
+     */
+    public void getLaunchImage(String address , ImageURLCallback callback){
+
+
+    }
+
+    /**
      * 获取新闻列表
      *
      * @param callback
@@ -149,6 +159,12 @@ public class RemoteDataSource implements DataSource {
         return null;
     }
 
+
+    /**
+     * 解析热点消息的JSON
+     * @param jsonData
+     * @return
+     */
     public NewsSimpleList parseHotNewsList(String jsonData) {
         NewsSimpleList newsSimpleList = new NewsSimpleList();
         List<NewsSimple> newsSimples = newsSimpleList.getNewsSimpleList();
@@ -176,6 +192,12 @@ public class RemoteDataSource implements DataSource {
         return null;
     }
 
+
+    /**
+     * 解析详细页面JSON
+     * @param jsonData
+     * @return
+     */
     public NewsDetail parseNewsDetail(String jsonData) {
         NewsDetail newsDetail = new NewsDetail();
 
@@ -188,4 +210,6 @@ public class RemoteDataSource implements DataSource {
 
         return newsDetail;
     }
+
+
 }

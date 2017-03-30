@@ -16,7 +16,11 @@ import com.example.a79069.zhihu.util.ActivityUtils;
  */
 
 public class NewsListActivity extends AppCompatActivity {
+    public static Intent newIntent(Context context){
+        Intent intent = new Intent(context , NewsListActivity.class);
 
+        return intent;
+    }
 
 
     private NewsListContract.Presenter mPresenter;

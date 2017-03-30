@@ -111,7 +111,7 @@ public class MyService extends Service {
          * 定时启动后台
          */
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int timeDur = 1000*10;
+        int timeDur = 1000*60*3;
         long duration = SystemClock.elapsedRealtime() + timeDur;
         Intent intentService = new Intent(this , MyService.class);
         PendingIntent pendingIntent = getService(this , 0 , intentService , 0);
