@@ -2,4 +2,11 @@
     <string name="app_name">知乎日报</string>
 
     <string name="share_this_news">分享</string>
+    <string name="login">请登录</string>
+
+    <string name="favorites">收藏</string>
+    <string name="messages">消息</string>
+    <string name="settings">设置</string>
+    <string name="home_page">首页</string>
+    <string name="design_news">设计日报</string>
 </resources>

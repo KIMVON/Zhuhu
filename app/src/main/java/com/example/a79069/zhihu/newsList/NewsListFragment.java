@@ -27,6 +27,7 @@ import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 import com.example.a79069.zhihu.dateSelect.DateActivity;
 import com.example.a79069.zhihu.newsDetail.NewsDetailActivity;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private SlidingMenu mSlidingMenu;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -85,6 +87,26 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.news_list_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+
+        /**
+         * 初始化和设置Slidingmenu
+         */
+        mSlidingMenu = new SlidingMenu(getActivity());
+
+        mSlidingMenu.setMode(SlidingMenu.LEFT);
+        // 设置触摸屏幕的模式
+        mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+
+        mSlidingMenu.setBehindOffsetRes(R.dimen.sliding_menu_width);
+
+        mSlidingMenu.attachToActivity(getActivity() , SlidingMenu.SLIDING_CONTENT);
+
+
+        mSlidingMenu.setMenu(R.layout.view_sliding_menu);
+
+
+
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_news_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

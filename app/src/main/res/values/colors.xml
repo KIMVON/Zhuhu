@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
 
-
+    <color name="sliding_menu_background">#2c2c2c</color>
     <color name="title_gray">#717171</color>
     <color name="search_view_hint_color">#e3f2fd</color>
     <color name="color_primary">#2196f3</color>

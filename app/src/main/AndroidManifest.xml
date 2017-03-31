@@ -17,10 +17,7 @@
             </intent-filter>
         </activity>
 
-
-
-        <activity android:name=".newsList.NewsListActivity">
-        </activity>
+        <activity android:name=".newsList.NewsListActivity"/>
 
         <activity android:name=".newsDetail.NewsDetailActivity"/>
 
