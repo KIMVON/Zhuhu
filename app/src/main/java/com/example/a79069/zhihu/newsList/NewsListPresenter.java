@@ -73,6 +73,8 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     }
 
+
+
     @Override
     public void onStart() {
 

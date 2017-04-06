@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a79069.zhihu.R;
@@ -31,6 +32,8 @@ public class LaunchFragment extends Fragment implements LaunchContract.View {
 
     private ImageView mLaunchImageView;
 
+    private TextView mAppName;
+
     private Handler mHandler = new Handler();
 
     @Nullable
@@ -40,12 +43,16 @@ public class LaunchFragment extends Fragment implements LaunchContract.View {
 
         mLaunchImageView = (ImageView) view.findViewById(R.id.launch_image);
 
+        mAppName = (TextView) view.findViewById(R.id.app_name);
+
         ObjectAnimator scaleXAnimator = new ObjectAnimator().ofFloat(mLaunchImageView , "scaleX" , 1f , 1.04f);
 
         ObjectAnimator scaleYAnimator = new ObjectAnimator().ofFloat(mLaunchImageView, "scaleY" , 1f , 1.04f);
 
+        ObjectAnimator alphaAnimator = new ObjectAnimator().ofFloat(mAppName , "alpha" , 0f , 1f);
+
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(scaleXAnimator).with(scaleYAnimator);
+        animatorSet.play(scaleXAnimator).with(scaleYAnimator).after(alphaAnimator);
         animatorSet.setDuration(3000);
         animatorSet.start();
 
@@ -53,7 +60,7 @@ public class LaunchFragment extends Fragment implements LaunchContract.View {
                 .load("http://p2.zhimg.com/10/7b/107bb4894b46d75a892da6fa80ef504a.jpg")
                 .into(mLaunchImageView);
 
-        long time = 3000;
+        long time = 3300;
 
         mHandler.postDelayed(new Runnable() {
             @Override

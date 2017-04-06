@@ -9,4 +9,6 @@
     <string name="settings">设置</string>
     <string name="home_page">首页</string>
     <string name="design_news">设计日报</string>
+
+    <string name="today_news">今日热点</string>
 </resources>

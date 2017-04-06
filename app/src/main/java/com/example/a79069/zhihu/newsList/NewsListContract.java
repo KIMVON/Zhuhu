@@ -15,6 +15,7 @@ public interface NewsListContract {
         void refreshNews(Handler handler);
 
         void onLoad(Handler handler);
+
     }
 
 
@@ -30,6 +31,10 @@ public interface NewsListContract {
         void setAdapter(NewsSimpleList newsSimpleList);
 
         void startService();
+
+        void initSlidingMenu();
+
+        void initSlidingAndDragListView();
 
     }
 }
