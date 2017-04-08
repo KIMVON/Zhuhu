@@ -2,9 +2,13 @@ package com.example.a79069.zhihu.newsList;
 
 import android.os.Handler;
 import android.os.Message;
+
+import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 import com.example.a79069.zhihu.data.source.AppRepository;
 import com.example.a79069.zhihu.data.source.DataSource;
+
+import java.util.List;
 
 
 /**
@@ -16,7 +20,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
     private AppRepository mAppRepository;
     private NewsListContract.View mMainFragment;
 
-    public NewsListPresenter(AppRepository appRepository , NewsListContract.View mainFragmentView){
+    public NewsListPresenter(AppRepository appRepository, NewsListContract.View mainFragmentView) {
 
         mAppRepository = appRepository;
 
@@ -31,7 +35,7 @@ public class NewsListPresenter implements NewsListContract.Presenter {
      */
     @Override
     public void refreshNews(final Handler handler) {
-        mAppRepository.getNews("http://news-at.zhihu.com/api/4/news/latest" , new DataSource.NewsSimpleListCallback() {
+        mAppRepository.getNews("http://news-at.zhihu.com/api/4/news/latest", new DataSource.NewsSimpleListCallback() {
             @Override
             public void onSuccess(NewsSimpleList newsSimpleList) {
                 Message message = Message.obtain();
@@ -51,11 +55,12 @@ public class NewsListPresenter implements NewsListContract.Presenter {
 
     /**
      * 加载新闻列表内容
+     *
      * @param handler
      */
     @Override
     public void onLoad(final Handler handler) {
-        mAppRepository.getNews("http://news-at.zhihu.com/api/4/news/latest" , new DataSource.NewsSimpleListCallback() {
+        mAppRepository.getNews("http://news-at.zhihu.com/api/4/news/latest", new DataSource.NewsSimpleListCallback() {
             @Override
             public void onSuccess(NewsSimpleList newsSimpleList) {
                 Message message = Message.obtain();
@@ -63,6 +68,8 @@ public class NewsListPresenter implements NewsListContract.Presenter {
                 message.what = 1;
 
                 handler.sendMessage(message);
+
+
             }
 
             @Override
@@ -72,7 +79,6 @@ public class NewsListPresenter implements NewsListContract.Presenter {
         });
 
     }
-
 
 
     @Override

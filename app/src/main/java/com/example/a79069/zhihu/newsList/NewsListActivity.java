@@ -2,11 +2,14 @@ package com.example.a79069.zhihu.newsList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.example.a79069.zhihu.R;
 import com.example.a79069.zhihu.util.ActivityUtils;

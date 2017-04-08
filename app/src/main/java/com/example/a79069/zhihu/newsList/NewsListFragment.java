@@ -2,8 +2,10 @@ package com.example.a79069.zhihu.newsList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -23,10 +25,13 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
+
 import com.bumptech.glide.Glide;
 import com.example.a79069.zhihu.R;
 import com.example.a79069.zhihu.app.MyService;
@@ -76,6 +81,17 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
 
     private List<String> mStringDateList;
 
+    private ViewFlipper mViewFlipper;
+
+    //开始的X坐标 因为只是横向滑动
+    private float startX;
+
+
+    private int[] resId = {R.drawable.pic1
+            ,R.drawable.pic2
+            ,R.drawable.pic3
+            ,R.drawable.pic4};
+
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -83,6 +99,20 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
             if (msg.what == 1){
 
                 setAdapter((NewsSimpleList) msg.obj);
+
+
+                /**
+                 * 加载ViewFlipper
+                 */
+                List<NewsSimple> list = ((NewsSimpleList) msg.obj).getNewsSimpleList();
+
+                for (int i = 0; i < 4; i++) {
+                    int randomInt = (int) (Math.random() * list.size());
+                    addImageViewToViewFlipper(list.get(randomInt).getImage());
+                    Log.d(TAG, "handleMessage: "+i);
+                }
+
+                startViewFlipperAnimation();
 
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -116,7 +146,10 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_home_btn);
 
+        //设置标题名字
         actionBar.setTitle(R.string.today_news);
+
+        mViewFlipper = (ViewFlipper) view.findViewById(R.id.view_flipper);
 
         //初始化和设置SlidingMenu
         initSlidingMenu();
@@ -134,10 +167,9 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
+
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_pick_date);
-
         fab.setOnClickListener(this);
-
 
         return view;
     }
@@ -145,7 +177,9 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     @Override
     public void onResume() {
         super.onResume();
+        mPresenter.onStart();
         mPresenter.onLoad(mHandler);
+
     }
 
 
@@ -217,17 +251,14 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
 
 
         Menu menu = new Menu(true, true, 0);//第1个参数表示在拖拽的时候 item 的背景是否透明，第2个参数表示滑动item是否能滑的过头，像弹簧那样(true表示过头，就像Gif中显示的那样；false表示不过头，就像Android QQ中的那样)
-        menu.addItem(new MenuItem.Builder().setWidth(90)//单个菜单button的宽度
-                .setBackground(new ColorDrawable(Color.RED))//设置菜单的背景
-                .setText("One")//set text string
-                .setTextColor(Color.GRAY)//set text color
-                .setTextSize(20)//set text size
-                .build());
-        menu.addItem(new MenuItem.Builder().setWidth(120)
-                .setBackground(new ColorDrawable(Color.BLACK))
-                .setDirection(MenuItem.DIRECTION_RIGHT)//设置方向 (默认方向为DIRECTION_LEFT)
-                .build());
-//set in sdlv
+//        menu.addItem(new MenuItem.Builder().setWidth(1)//单个菜单button的宽度
+//                .setBackground(new ColorDrawable(Color.BLACK))//设置菜单的背景
+//                .build());
+//        menu.addItem(new MenuItem.Builder().setWidth(1)
+//                .setBackground(new ColorDrawable(Color.BLACK))
+//                .setDirection(MenuItem.DIRECTION_RIGHT)//设置方向 (默认方向为DIRECTION_LEFT)
+//                .build());
+////set in sdlv
         mStringSlideAndDragListView.setMenu(menu);
 
         mStringDateAdapter = new StringDateAdapter(getActivity() , mStringDateList);
@@ -279,7 +310,6 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         mStringSlideAndDragListView.setOnListItemLongClickListener(new SlideAndDragListView.OnListItemLongClickListener() {
             @Override
             public void onListItemLongClick(View view, int position) {
-                Toast.makeText(getActivity(), "长按list" + position, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -330,6 +360,37 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     }
 
     @Override
+    public void startViewFlipperAnimation() {
+        /**
+         * 设置自动切换
+         */
+        //设置动画效果
+        //进来的时候的动画
+        mViewFlipper.setInAnimation(getActivity() , R.anim.left_in);
+        //出去的时候的动画
+        mViewFlipper.setOutAnimation(getActivity() , R.anim.left_out);
+        //设置视图切换的时间间隔
+        mViewFlipper.setFlipInterval(3000);
+        //开始播放
+        mViewFlipper.startFlipping();
+    }
+
+    /**
+     * 增加图片到ViewFlipper
+     * @param url
+     */
+    @Override
+    public void addImageViewToViewFlipper(String url) {
+        ImageView imageView = new ImageView(getActivity());
+        //设置ImageView铺满
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        Glide.with(getActivity()).load(url.substring(2 , url.length()-2).replaceAll("\\\\" , "") ).into(imageView);
+        Log.d(TAG, "addImageViewToViewFliper: "+url);
+        //动态导入的方式为ViewFlipper加入子View
+        mViewFlipper.addView(imageView);
+    }
+
+    @Override
     public void showDateActivity() {
         Intent intent = DateActivity.newIntent(getActivity());
 
@@ -368,7 +429,13 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         mStringDateList.add("日常心理学");
         mStringDateList.add("用户推荐日报");
         mStringDateList.add("大公司日报");
+        mStringDateList.add("开始游戏");
+        mStringDateList.add("互联网安全");
         mStringDateList.add("不许无聊");
+        mStringDateList.add("财经日报");
+        mStringDateList.add("音乐日报");
+        mStringDateList.add("动漫日报");
+        mStringDateList.add("体育日报");
     }
 
 

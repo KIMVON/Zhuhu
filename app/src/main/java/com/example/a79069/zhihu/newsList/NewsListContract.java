@@ -1,6 +1,7 @@
 package com.example.a79069.zhihu.newsList;
 
 import android.os.Handler;
+import android.widget.ImageView;
 
 import com.example.a79069.zhihu.BasePresenter;
 import com.example.a79069.zhihu.BaseView;
@@ -25,6 +26,10 @@ public interface NewsListContract {
         void showSearchActivity();
 
         void showMyFavoritesActivity();
+
+        void startViewFlipperAnimation();
+
+        void addImageViewToViewFlipper(String url);
 
         void showDateActivity();
 

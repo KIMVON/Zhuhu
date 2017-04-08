@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".newsList.NewsListActivity"/>
+        <activity android:name=".newsList.NewsListActivity"
+            />
+            <!--android:theme="@style/NewListTheme"-->
 
         <activity android:name=".newsDetail.NewsDetailActivity"/>
 

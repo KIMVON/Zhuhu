@@ -19,12 +19,12 @@ import com.example.a79069.zhihu.util.ActivityUtils;
 public class NewsDetailActivity extends AppCompatActivity {
     private static final String NEWS_DETAIL_ADDRESS = "com.example.a79069.zhihu.newsDetail.address";
 
-    public static Intent newIntent(Context context , String address){
+    public static Intent newIntent(Context context, String address) {
 
 
-        Intent intent = new Intent(context , NewsDetailActivity.class);
+        Intent intent = new Intent(context, NewsDetailActivity.class);
 
-        intent.putExtra(NEWS_DETAIL_ADDRESS  , address);
+        intent.putExtra(NEWS_DETAIL_ADDRESS, address);
 
         return intent;
     }
@@ -37,24 +37,25 @@ public class NewsDetailActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_container);
 
 
-
         String address = getIntent().getStringExtra(NEWS_DETAIL_ADDRESS);
-
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
 
-        if (fragment == null){
+        if (fragment == null) {
             fragment = NewsDetailFragment.newInstance(address);
 
-            ActivityUtils.addFragmentToActivity(fragmentManager , fragment , R.id.fragment_container);
+            ActivityUtils.addFragmentToActivity(fragmentManager, fragment, R.id.fragment_container);
         }
 
-        mPresenter = new NewDetailPresenter(ActivityUtils.getAppRepository() , (NewsDetailContract.View) fragment);
+        mPresenter = new NewDetailPresenter(ActivityUtils.getAppRepository(), (NewsDetailContract.View) fragment);
+
+
+
+
 
     }
-
 
 
     @Override
