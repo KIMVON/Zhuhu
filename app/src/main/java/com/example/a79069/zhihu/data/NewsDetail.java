@@ -7,6 +7,8 @@ import java.util.ArrayList;
  */
 
 public class NewsDetail {
+    private String id;
+
     private String body;
 
     /**
@@ -19,6 +21,15 @@ public class NewsDetail {
     private String imageURL;
 
     private String shareURL;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * 这篇文章的推荐者

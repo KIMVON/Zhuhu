@@ -203,7 +203,21 @@ public class RemoteDataSource implements DataSource {
 
         try {
             JSONObject jsonObject = new JSONObject(jsonData);
+
+            newsDetail.setBody(jsonObject.getString("body"));
+
             newsDetail.setShareURL(jsonObject.getString("share_url"));
+
+            newsDetail.setImageSource(jsonObject.getString("image_source"));
+
+            newsDetail.setImageURL(jsonObject.getString("image"));
+
+            newsDetail.setTitle(jsonObject.getString("title"));
+
+            newsDetail.setId(jsonObject.getString("id"));
+
+            newsDetail.setCssURL(jsonObject.getString("css").substring(2 , jsonObject.getString("css").length()-2).replaceAll("\\\\" , ""));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

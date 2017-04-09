@@ -90,7 +90,6 @@ public class AppRepository implements DataSource {
         mRemoteDataSource.getNewsDetail(address, new NewsDetailCallback() {
             @Override
             public void onSuccess(NewsDetail newsDetail) {
-
                 callback.onSuccess(newsDetail);
             }
 

@@ -54,8 +54,6 @@ public class HttpUtil {
                         callback.onFailed();
                     }
 
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }finally {

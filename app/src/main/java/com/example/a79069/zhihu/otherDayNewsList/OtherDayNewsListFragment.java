@@ -125,9 +125,9 @@ public class OtherDayNewsListFragment extends Fragment implements OtherDayNewsLi
 
 
     @Override
-    public void showNewsDetail(String newsId) {
-        Intent intent = NewsDetailActivity.newIntent(getActivity() , newsId);
-
+    public void showNewsDetail(String address) {
+        Intent intent = NewsDetailActivity.newIntent(getActivity() , address);
+        Log.d(TAG, "showNewsDetail: "+address);
         startActivity(intent);
     }
 
@@ -144,9 +144,9 @@ public class OtherDayNewsListFragment extends Fragment implements OtherDayNewsLi
 
 
 
-
-
-
+    /**
+     * 适配器
+     */
     private class OtherDayNewsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView mImageView;
@@ -180,9 +180,7 @@ public class OtherDayNewsListFragment extends Fragment implements OtherDayNewsLi
             mNewsSimple = newsSimple;
 
             mTitleTextView.setText(title);
-            String image = imageURL.substring(2 , imageURL.length()-2).replaceAll("\\\\" , "") ;
-            Log.d(TAG, "onBindView: "+imageURL);
-            Log.d(TAG, "onBindView: "+image);
+            String image = imageURL.substring(2 , imageURL.length()-2).replaceAll("\\\\" , "");
 
             Glide.with(getActivity()).load(image).into(mImageView);
         }
@@ -190,11 +188,9 @@ public class OtherDayNewsListFragment extends Fragment implements OtherDayNewsLi
 
         @Override
         public void onClick(View view) {
-            showNewsDetail(mNewsSimple.getId());
+            showNewsDetail("http://news-at.zhihu.com/api/4/news/"+mNewsSimple.getId());
         }
     }
-
-
 
     private class OtherDayNewsListAdapter extends RecyclerView.Adapter<OtherDayNewsListViewHolder>{
         private NewsSimpleList mNewsSimpleList;
