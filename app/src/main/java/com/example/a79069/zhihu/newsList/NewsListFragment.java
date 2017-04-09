@@ -109,7 +109,6 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
                 for (int i = 0; i < 4; i++) {
                     int randomInt = (int) (Math.random() * list.size());
                     addImageViewToViewFlipper(list.get(randomInt).getImage());
-                    Log.d(TAG, "handleMessage: "+i);
                 }
 
                 startViewFlipperAnimation();
@@ -124,6 +123,7 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setHasOptionsMenu(true);
 
@@ -240,6 +240,8 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         mSlidingMenu.attachToActivity(getActivity() , SlidingMenu.SLIDING_CONTENT);
         //设置侧滑菜单布局
         mSlidingMenu.setMenu(R.layout.view_sliding_menu);
+
+        mSlidingMenu.setFitsSystemWindows(true);
     }
 
     /**
@@ -385,7 +387,6 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         //设置ImageView铺满
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(getActivity()).load(url.substring(2 , url.length()-2).replaceAll("\\\\" , "") ).into(imageView);
-        Log.d(TAG, "addImageViewToViewFliper: "+url);
         //动态导入的方式为ViewFlipper加入子View
         mViewFlipper.addView(imageView);
     }

@@ -11,4 +11,16 @@
     <string name="design_news">设计日报</string>
 
     <string name="today_news">今日热点</string>
+    <string name="share_article">分享这篇内容</string>
+
+
+    <string name="wechat_friends">微信好友</string>
+    <string name="wechat_share_friends">微信朋友圈</string>
+    <string name="qq">QQ</string>
+    <string name="weibo">微博</string>
+    <string name="copy">复制链接</string>
+    <string name="email">Email</string>
+    <string name="youdao">有道云笔记</string>
+    <string name="message">message</string>
+    <string name="cancel">取消</string>
 </resources>

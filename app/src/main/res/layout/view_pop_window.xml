@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="#faf8f8"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share_article"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="5dp"
+        />
+
+    <include layout="@layout/view_pop_window_center"/>
+
+
+    <Button
+        android:id="@+id/favorites_btn"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="14dp"
+        android:padding="5dp"
+        android:background="@android:color/white"
+        android:text="@string/favorites"
+        />
+
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:padding="5dp"
+        android:background="@android:color/white"
+        android:text="@string/cancel"
+        />
+
+</LinearLayout>
