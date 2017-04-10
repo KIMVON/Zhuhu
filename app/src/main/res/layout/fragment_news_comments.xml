@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tool="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <!--<include layout="@layout/toolbar"/>-->
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/news_list_toolbar"
+        style="@style/toolBarStyle"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        >
+        <TextView
+            android:id="@+id/comment_title_string"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tool:text="X条评论"
+            android:layout_marginRight="20dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            />
+    </android.support.v7.widget.Toolbar>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/long_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/popupwindow_background"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:paddingLeft="14dp"
+                android:textColor="#000"
+                android:textSize="16sp"
+                tool:text="X条长评"
+                />
+
+            <LinearLayout
+                android:id="@+id/long_comments_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/short_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/popupwindow_background"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:paddingLeft="14dp"
+                android:textColor="#000"
+                android:textSize="16sp"
+                tool:text="X条短评"
+                />
+
+            <LinearLayout
+                android:id="@+id/short_comments_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <include layout="@layout/fragment_news_comments_bottom"/>
+</LinearLayout>

@@ -19,5 +19,6 @@ public interface NewsDetailContract {
     interface View extends BaseView<Presenter>{
         void showPopWindow();
 
+        void showCommentActivity();
     }
 }

@@ -28,6 +28,7 @@
 
         <activity android:name=".otherDayNewsList.OtherDayNewsListActivity" android:parentActivityName=".dateSelect.DateActivity"/>
 
+        <activity android:name=".comments.CommentsActivity"/>
 
         <service android:name=".app.MyService"
                  android:enabled="true"

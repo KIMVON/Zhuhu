@@ -2,6 +2,8 @@ package com.example.a79069.zhihu.data.source.RemoteDataSource;
 
 import android.util.Log;
 
+import com.example.a79069.zhihu.data.AllNewsComment;
+import com.example.a79069.zhihu.data.NewsComment;
 import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
@@ -13,8 +15,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import static android.content.ContentValues.TAG;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -121,8 +129,33 @@ public class RemoteDataSource implements DataSource {
 
 
     /**
+     * 获取所有评论
+     * @param address
+     * @param callback
+     */
+    @Override
+    public void getNewsComments(String address, final NewsCommentsCallback callback) {
+        checkNotNull(address);
+        checkNotNull(callback);
+
+
+        HttpUtil.sendRequestWithOkHttp(address , new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callback.onSuccess(parseNewsComment(response.body().string()));
+            }
+        });
+    }
+
+
+
+    /**
      * 解析JSON
-     *
      * @param jsonData
      * @return
      */
@@ -226,4 +259,35 @@ public class RemoteDataSource implements DataSource {
     }
 
 
+    /**
+     * 解析评论列表JSON
+     * @param jsonData
+     * @return
+     */
+    private List<NewsComment> parseNewsComment(String jsonData){
+        List<NewsComment> newsCommentList = new ArrayList<>();
+        NewsComment newsComment = null;
+        try {
+            JSONObject object = new JSONObject(jsonData);
+            JSONArray array = object.getJSONArray("comments");
+            for(int i = 0 ; i < array.length() ; i++){
+                JSONObject jsonObject = array.getJSONObject(i);
+                newsComment = new NewsComment();
+
+                newsComment.setAuthor(jsonObject.getString("author"));
+                newsComment.setContent(jsonObject.getString("content"));
+                newsComment.setAvatar(jsonObject.getString("avatar"));
+                newsComment.setTime(jsonObject.getString("time"));
+                newsComment.setId(jsonObject.getString("id"));
+                newsComment.setLikes(jsonObject.getInt("likes"));
+
+                newsCommentList.add(newsComment);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return newsCommentList;
+    }
 }

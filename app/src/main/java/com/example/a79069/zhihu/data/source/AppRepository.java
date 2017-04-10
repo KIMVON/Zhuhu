@@ -2,6 +2,7 @@ package com.example.a79069.zhihu.data.source;
 
 import android.util.Log;
 
+import com.example.a79069.zhihu.data.NewsComment;
 import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 import com.example.a79069.zhihu.data.source.LocalDataSource.LocalDataSource;
@@ -9,6 +10,7 @@ import com.example.a79069.zhihu.data.source.RemoteDataSource.RemoteDataSource;
 import com.example.a79069.zhihu.util.HttpUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -60,6 +62,7 @@ public class AppRepository implements DataSource {
         });
     }
 
+
     /**
      * 获取热点消息
      * @param callback
@@ -91,6 +94,26 @@ public class AppRepository implements DataSource {
             @Override
             public void onSuccess(NewsDetail newsDetail) {
                 callback.onSuccess(newsDetail);
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+        });
+    }
+
+    /**
+     * 获取所有评论
+     * @param address
+     * @param callback
+     */
+    @Override
+    public void getNewsComments(String address, final NewsCommentsCallback callback) {
+        mRemoteDataSource.getNewsComments(address, new NewsCommentsCallback() {
+            @Override
+            public void onSuccess(List<NewsComment> newsCommentList) {
+                callback.onSuccess(newsCommentList);
             }
 
             @Override

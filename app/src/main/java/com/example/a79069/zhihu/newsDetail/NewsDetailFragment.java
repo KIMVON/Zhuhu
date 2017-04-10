@@ -1,5 +1,6 @@
 package com.example.a79069.zhihu.newsDetail;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Build;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.a79069.zhihu.R;
+import com.example.a79069.zhihu.comments.CommentsActivity;
 import com.example.a79069.zhihu.data.NewsDetail;
 
 import java.lang.reflect.InvocationTargetException;
@@ -58,6 +60,8 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
     private NewsDetailContract.Presenter mPresenter;
 
     private String mNewsAddress;
+
+    private String mNewsID;
 
     private ImageView mArticleImage;
 
@@ -123,6 +127,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
 
         mNewsAddress = (String) getArguments().getSerializable(NEWS_DETAIL_ADDRESS);
 
+        mNewsID = mNewsAddress.substring(mNewsAddress.lastIndexOf("/")+1);
 
         setHasOptionsMenu(true);
     }
@@ -186,21 +191,21 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getActivity().finish();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                getActivity().finish();
+//                break;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     @Override
@@ -222,6 +227,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
                 showPopWindow();
                 break;
             case R.id.comments_btn:
+                showCommentActivity();
                 break;
 
             //PopWindow里面的Button、ImageView
@@ -319,6 +325,13 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
                 getView().setAlpha(1.0f);
             }
         });
+    }
+
+    @Override
+    public void showCommentActivity() {
+        Intent intent = CommentsActivity.newIntent(getActivity() , mNewsID);
+
+        startActivity(intent);
     }
 }
 

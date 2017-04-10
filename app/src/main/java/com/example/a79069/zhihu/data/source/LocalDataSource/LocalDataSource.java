@@ -27,6 +27,7 @@ public class LocalDataSource implements DataSource {
         callback.onFailed();
     }
 
+
     @Override
     public void getHotNewsList(NewsSimpleListCallback callback) {
 
@@ -34,6 +35,12 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void getNewsDetail(String newsId , NewsDetailCallback callback) {
+
+    }
+
+
+    @Override
+    public void getNewsComments(String address, NewsCommentsCallback callback) {
 
     }
 

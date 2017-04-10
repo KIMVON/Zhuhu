@@ -1,8 +1,12 @@
 package com.example.a79069.zhihu.data.source;
 
 
+import com.example.a79069.zhihu.data.AllNewsComment;
+import com.example.a79069.zhihu.data.NewsComment;
 import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimpleList;
+
+import java.util.List;
 
 import okhttp3.Callback;
 
@@ -36,6 +40,13 @@ public interface DataSource {
         void onFailed();
     }
 
+    interface NewsCommentsCallback{
+        void onSuccess(List<NewsComment> newsCommentList);
+
+        void onFailed();
+    }
+
+
 
 
     /**
@@ -55,4 +66,11 @@ public interface DataSource {
      */
     void getNewsDetail(String newsId , NewsDetailCallback callback);
 
+
+    /**
+     * 获取所有评论（长短评论）
+     * @param address
+     * @param callback
+     */
+    void getNewsComments(String address , NewsCommentsCallback callback);
 }
