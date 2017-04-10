@@ -111,7 +111,7 @@ public class MyService extends Service {
          * 定时启动后台
          */
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int timeDur = 1000*60*3;
+        int timeDur = 1000*5;
         long duration = SystemClock.elapsedRealtime() + timeDur;
         Intent intentService = new Intent(this , MyService.class);
         PendingIntent pendingIntent = getService(this , 0 , intentService , 0);
@@ -157,11 +157,14 @@ public class MyService extends Service {
          */
         PendingIntent pendingIntent = PendingIntent.getActivity(this , 0 , intent ,  FLAG_UPDATE_CURRENT);
 
+
+        //android5.0的BUG 在setSmallIcon不显示图标
         Notification notification = new NotificationCompat.Builder(this)
                 .setContentTitle(newsSimple.getTitle())
                 .setWhen(System.currentTimeMillis())
-                .setLargeIcon(BitmapFactory.decodeFile(newsSimple.getImage()))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources() , R.drawable.ic_notification_large_image48))
+//                .setSmallIcon(getApplication().getApplicationContext().getApplicationInfo().icon)
+                .setSmallIcon(R.drawable.ic_notification_small_image48)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build();

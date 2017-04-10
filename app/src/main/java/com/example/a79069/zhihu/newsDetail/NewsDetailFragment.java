@@ -300,8 +300,8 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
         int widthScreen = dm.widthPixels;
         int heightScreen = dm.heightPixels;
 
-        //设置屏幕的高度和宽度
-        mPopupWindow = new PopupWindow(view, widthScreen, heightScreen * 8/15);
+        //设置屏幕的高度和宽度  屏幕适配 heightScreen * 9/15  heightScreen * 8/15
+        mPopupWindow = new PopupWindow(view, widthScreen, heightScreen * 9/15);
 
         //如果不设置背景颜色的话，无法是pop dimiss掉。
         mPopupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.popupwindow_background));
@@ -314,7 +314,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
          2：showAtLocation（）；是pop相对于屏幕而言的。 * *
          3：如果是 pop.showAsDropDown();则是相对于你要点击的view的位置。设置的坐标。
          */
-//        pop.showAtLocation(this.getView(), Gravity.BOTTOM, 0, 2*view.getHeight());
+//        mPopupWindow.showAtLocation(this.getView(), Gravity.BOTTOM, 0, 2*view.getHeight());
         mPopupWindow.showAtLocation(getView() , Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置 背景的颜色为 0.5f 的透明度
         getView().setAlpha(0.8f);

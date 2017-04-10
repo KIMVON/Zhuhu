@@ -24,4 +24,5 @@
     <string name="message">message</string>
     <string name="cancel">取消</string>
     <string name="write_comment">写点评</string>
+    <string name="login_string">请登录</string>
 </resources>

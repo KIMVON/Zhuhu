@@ -212,7 +212,8 @@ public class RemoteDataSource implements DataSource {
                 NewsSimple newsSimple = new NewsSimple();
                 newsSimple.setTitle(jsonObject.getString("title"));
                 newsSimple.setId(jsonObject.getString("news_id"));
-                newsSimple.setImage("thumbnail");
+                newsSimple.setImage(jsonObject.getString("thumbnail"));
+
                 newsSimple.setShareUrl("url");
 
                 newsSimples.add(newsSimple);

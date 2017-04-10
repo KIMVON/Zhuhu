@@ -7,39 +7,23 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_user_image48"
         />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="KIM"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            />
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="@string/login_string"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        />
 
-        <Button
-            android:id="@+id/login_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:textSize="20dp"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/black"
-            />
-
-    </FrameLayout>
 </LinearLayout>
