@@ -41,7 +41,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                />
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/today_news"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="80dp"
+                    />
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

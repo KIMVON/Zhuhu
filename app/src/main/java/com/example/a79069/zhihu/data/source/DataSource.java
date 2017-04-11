@@ -2,6 +2,7 @@ package com.example.a79069.zhihu.data.source;
 
 
 import com.example.a79069.zhihu.data.AllNewsComment;
+import com.example.a79069.zhihu.data.FavoriteNews;
 import com.example.a79069.zhihu.data.NewsComment;
 import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimpleList;
@@ -46,6 +47,20 @@ public interface DataSource {
         void onFailed();
     }
 
+    interface FavoritesNewsCallback{
+        void onSuccess(List<FavoriteNews> favoriteNewsList);
+
+        void onFailed();
+    }
+
+    interface addFavoriteNewsCallback{
+        void onSuccess();
+
+        void onGiveUp();
+
+        void onFailed();
+    }
+
 
 
 
@@ -65,6 +80,22 @@ public interface DataSource {
      * @param callback
      */
     void getNewsDetail(String newsId , NewsDetailCallback callback);
+
+
+    /**
+     * 获取我的收藏
+     * @param callback
+     */
+    void getFavoritesList(FavoritesNewsCallback callback);
+
+
+    /**
+     * 添加到我的收藏
+     * @param address
+     * @param title
+     * @param callback
+     */
+    void addFavoriteNews(String address , String title , addFavoriteNewsCallback callback);
 
 
     /**

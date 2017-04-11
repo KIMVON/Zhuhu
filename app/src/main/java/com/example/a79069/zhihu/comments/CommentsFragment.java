@@ -8,12 +8,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -83,6 +87,12 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
 
     private List<NewsComment> mShortCommentList;
 
+    private PopupWindow mPopupWindow;
+
+
+    /**
+     * 主线程
+     */
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -141,6 +151,8 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
 
         mId = (String) getArguments().getSerializable(NEWS_ID);
 
+
+        //启动两个线程去访问
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -195,16 +207,11 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
 
     }
 
-    @Override
-    public void onLoadLongComments(List<NewsComment> newsCommentList) {
-
-    }
-
-    @Override
-    public void onLoadShortComments(List<NewsComment> newsCommentList) {
-
-    }
-
+    /**
+     * 必须同步，加载返回来的评论List
+     * @param newsCommentList
+     * @param judgement
+     */
     @Override
     public synchronized void onLoadComments(List<NewsComment> newsCommentList, String judgement) {
         if (judgement.equals(LONG_COMMENTS)) {
@@ -229,6 +236,11 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
     }
 
 
+    /**
+     * 添加Comment到container
+     * @param newsComment
+     * @param root
+     */
     @Override
     public void addComment(NewsComment newsComment, ViewGroup root) {
         //这里必须要添加false，否者系统会认为view已经有parentView了，必须移除
@@ -250,6 +262,48 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
 
     @Override
     public void onWriteComment() {
+        View view= LayoutInflater.from(getActivity()).inflate(R.layout.view_user_login_pop_window , (ViewGroup) this.getView() , false);
+
+        ImageView backtrackBtn = (ImageView) view.findViewById(R.id.backtrack_btn);
+        Button loginByZhihuBtn = (Button) view.findViewById(R.id.login_by_zhihu);
+        ImageView loginBySinaWeiboBtn = (ImageView) view.findViewById(R.id.sina_weibo_btn);
+        ImageView loginByTecentWeiboBtn = (ImageView) view.findViewById(R.id.tecent_weibo_btn);
+
+        //防止冲突写在里面
+        backtrackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+            }
+        });
+        loginByZhihuBtn.setOnClickListener(this);
+        loginBySinaWeiboBtn.setOnClickListener(this);
+        loginByTecentWeiboBtn.setOnClickListener(this);
+
+        /**
+         * 最新的：除获得屏幕的宽和高外还可以获得屏幕的密度。
+         */
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int widthScreen = dm.widthPixels;
+        int heightScreen = dm.heightPixels;
+
+        //设置屏幕的高度和宽度  屏幕适配 heightScreen * 9/15  heightScreen * 8/15
+        mPopupWindow = new PopupWindow(view, widthScreen, heightScreen);
+        mPopupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.popupwindow_background));
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setAnimationStyle(R.style.MyPopupWindow_anim_style);
+
+
+        mPopupWindow.showAtLocation(getView() , Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        //设置 背景的颜色为 0.5f 的透明度
+        getView().setAlpha(0.8f);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //当popwindow消失的时候，恢复背景的颜色。 backgroundAlpha(1.0f);
+                getView().setAlpha(1.0f);
+            }
+        });
 
     }
 
@@ -270,6 +324,7 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
                 closeActivity();
                 break;
             case R.id.write_comment:
+                onWriteComment();
                 break;
         }
     }

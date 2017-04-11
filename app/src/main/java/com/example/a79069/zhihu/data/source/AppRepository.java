@@ -2,6 +2,7 @@ package com.example.a79069.zhihu.data.source;
 
 import android.util.Log;
 
+import com.example.a79069.zhihu.data.FavoriteNews;
 import com.example.a79069.zhihu.data.NewsComment;
 import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimpleList;
@@ -99,6 +100,52 @@ public class AppRepository implements DataSource {
             @Override
             public void onFailed() {
 
+            }
+        });
+    }
+
+    /**
+     * 获取我的收藏列表
+     * @param callback
+     */
+    @Override
+    public void getFavoritesList(final FavoritesNewsCallback callback) {
+         mLocalDataSource.getFavoritesList(new FavoritesNewsCallback() {
+             @Override
+             public void onSuccess(List<FavoriteNews> favoriteNewsList) {
+                 callback.onSuccess(favoriteNewsList);
+             }
+
+             @Override
+             public void onFailed() {
+                 //失败就执行这一步：调用网络上的
+             }
+         });
+    }
+
+
+    /**
+     * 添加到我的收藏
+     * @param address
+     * @param title
+     * @param callback
+     */
+    @Override
+    public void addFavoriteNews(String address, String title, final addFavoriteNewsCallback callback) {
+        mLocalDataSource.addFavoriteNews(address, title, new addFavoriteNewsCallback() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onGiveUp() {
+                callback.onGiveUp();
+            }
+
+            @Override
+            public void onFailed() {
+                callback.onFailed();
             }
         });
     }

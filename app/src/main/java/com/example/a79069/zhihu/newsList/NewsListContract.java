@@ -25,6 +25,8 @@ public interface NewsListContract {
 
         void showSearchActivity();
 
+        void showLoginPopWindow();
+
         void showMyFavoritesActivity();
 
         void startViewFlipperAnimation();

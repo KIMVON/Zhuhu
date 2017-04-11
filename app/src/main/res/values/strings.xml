@@ -3,12 +3,15 @@
 
     <string name="share_this_news">分享</string>
     <string name="login">请登录</string>
-
+    <string name="login_pop_window">登陆</string>
+    <string name="login_by_zhihu">知乎账户登陆</string>
+    <string name="login_by_weibo">或使用微博登陆</string>
     <string name="favorites">收藏</string>
     <string name="messages">消息</string>
     <string name="settings">设置</string>
     <string name="home_page">首页</string>
     <string name="design_news">设计日报</string>
+    <string name="my_favorites">我的收藏</string>
 
     <string name="today_news">今日热点</string>
     <string name="share_article">分享这篇内容</string>

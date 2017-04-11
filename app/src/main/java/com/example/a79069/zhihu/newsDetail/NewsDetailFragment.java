@@ -65,7 +65,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
 
     private ImageView mArticleImage;
 
-    private TextView mArticleTitle;
+    private TextView mArticleTitleTextView;
 
     private WebView mWebView;
 
@@ -81,6 +81,8 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
 
     private PopupWindow mPopupWindow;
 
+    private String mArticleTitle;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -89,8 +91,9 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
             if (msg.what == 2) {
                 NewsDetail newsDetail = (NewsDetail) msg.obj;
 
+                mArticleTitle = newsDetail.getTitle();
 
-                mArticleTitle.setText(newsDetail.getTitle());
+                mArticleTitleTextView.setText(mArticleTitle);
                 Glide.with(getActivity()).load(newsDetail.getImageURL()).into(mArticleImage);
 
                 /**
@@ -144,7 +147,7 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
 
 
         mArticleImage = (ImageView) view.findViewById(R.id.article_image);
-        mArticleTitle = (TextView) view.findViewById(R.id.article_title);
+        mArticleTitleTextView = (TextView) view.findViewById(R.id.article_title);
 
         mWebView = (WebView) view.findViewById(R.id.news_detail_web_view);
 
@@ -250,6 +253,8 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
 
 
             case R.id.favorites_btn:
+                mPresenter.addToFavorites(mNewsAddress , mArticleTitle);
+                mPopupWindow.dismiss();
                 break;
             case R.id.cancel_btn:
                 mPopupWindow.dismiss();
@@ -257,9 +262,12 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
         }
     }
 
+    /**
+     * 启动popwindow
+     */
     @Override
     public void showPopWindow() {
-        final View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_pop_window, null);
+        final View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_pop_window, (ViewGroup) getView() , false);
 
         ImageView weChatBtn = (ImageView) view.findViewById(R.id.share_wechat);
         ImageView weChatMomentBtn = (ImageView) view.findViewById(R.id.share_wechat_moments);
@@ -327,11 +335,30 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
         });
     }
 
+    /**
+     * 启动评论列表
+     */
     @Override
     public void showCommentActivity() {
         Intent intent = CommentsActivity.newIntent(getActivity() , mNewsID);
 
         startActivity(intent);
+    }
+
+
+    @Override
+    public void showAddFavoritesSuccess() {
+        Toast.makeText(getActivity(), "已添加收藏", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showAddFavoritesFailed() {
+        Toast.makeText(getActivity(), "添加失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showGiveUpAddFavorites() {
+        Toast.makeText(getActivity(), "已取消收藏", Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -3,6 +3,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+        android:name="com.example.a79069.zhihu.app.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_notification_circle_image128"
         android:label="@string/app_name"
@@ -29,6 +30,8 @@
         <activity android:name=".otherDayNewsList.OtherDayNewsListActivity" android:parentActivityName=".dateSelect.DateActivity"/>
 
         <activity android:name=".comments.CommentsActivity"/>
+
+        <activity android:name=".favorites.FavoritesActivity"/>
 
         <service android:name=".app.MyService"
                  android:enabled="true"

@@ -13,6 +13,8 @@ public interface NewsDetailContract {
     interface Presenter extends BasePresenter{
         void onLoad(String address , Handler handler);
 
+        void addToFavorites(String address , String title);
+
 
     }
 
@@ -20,5 +22,11 @@ public interface NewsDetailContract {
         void showPopWindow();
 
         void showCommentActivity();
+
+        void showAddFavoritesSuccess();
+
+        void showAddFavoritesFailed();
+
+        void showGiveUpAddFavorites();
     }
 }

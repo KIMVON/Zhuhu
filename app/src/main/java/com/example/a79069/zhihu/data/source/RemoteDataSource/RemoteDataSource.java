@@ -127,6 +127,16 @@ public class RemoteDataSource implements DataSource {
         });
     }
 
+    @Override
+    public void getFavoritesList(FavoritesNewsCallback callback) {
+
+    }
+
+    @Override
+    public void addFavoriteNews(String address, String title, addFavoriteNewsCallback callback) {
+
+    }
+
 
     /**
      * 获取所有评论

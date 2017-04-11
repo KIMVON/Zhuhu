@@ -19,9 +19,6 @@ public interface CommentsContract {
     }
 
     interface View extends BaseView<Presenter>{
-        void onLoadLongComments(List<NewsComment> newsCommentList);
-
-        void onLoadShortComments(List<NewsComment> newsCommentList);
 
         void onLoadComments(List<NewsComment> newsCommentList , String judgement);
 

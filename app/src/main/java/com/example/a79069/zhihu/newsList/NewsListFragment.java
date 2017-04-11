@@ -19,15 +19,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -38,6 +43,7 @@ import com.example.a79069.zhihu.app.MyService;
 import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
 import com.example.a79069.zhihu.dateSelect.DateActivity;
+import com.example.a79069.zhihu.favorites.FavoritesActivity;
 import com.example.a79069.zhihu.newsDetail.NewsDetailActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.yydcdut.sdlv.Menu;
@@ -82,6 +88,16 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     private List<String> mStringDateList;
 
     private ViewFlipper mViewFlipper;
+
+    private PopupWindow mPopupWindow;
+
+    private LinearLayout mLoginLinearLayoutBtn;
+
+    private LinearLayout mFavoritesBtn;
+
+    private LinearLayout mMessagesBtn;
+
+    private LinearLayout mSettingBtn;
 
     //开始的X坐标 因为只是横向滑动
     private float startX;
@@ -241,6 +257,20 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         //设置侧滑菜单布局
         mSlidingMenu.setMenu(R.layout.view_sliding_menu);
 
+        mLoginLinearLayoutBtn = (LinearLayout) mSlidingMenu.findViewById(R.id.login_linearlayout_btn);
+
+        mFavoritesBtn = (LinearLayout) mSlidingMenu.findViewById(R.id.favorites_btn);
+
+        mMessagesBtn = (LinearLayout) mSlidingMenu.findViewById(R.id.messages_btn);
+
+        mSettingBtn = (LinearLayout) mSlidingMenu.findViewById(R.id.settings_btn);
+
+        mLoginLinearLayoutBtn.setOnClickListener(this);
+
+        mFavoritesBtn.setOnClickListener(this);
+        mMessagesBtn.setOnClickListener(this);
+        mSettingBtn.setOnClickListener(this);
+
         mSlidingMenu.setFitsSystemWindows(true);
     }
 
@@ -356,11 +386,66 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
     }
 
 
+    /**
+     * 启动登陆页面
+     */
     @Override
-    public void showMyFavoritesActivity() {
+    public void showLoginPopWindow() {
+        View view= LayoutInflater.from(getActivity()).inflate(R.layout.view_user_login_pop_window , (ViewGroup) this.getView() , false);
+
+        ImageView backtrackBtn = (ImageView) view.findViewById(R.id.backtrack_btn);
+        Button loginByZhihuBtn = (Button) view.findViewById(R.id.login_by_zhihu);
+        ImageView loginBySinaWeiboBtn = (ImageView) view.findViewById(R.id.sina_weibo_btn);
+        ImageView loginByTecentWeiboBtn = (ImageView) view.findViewById(R.id.tecent_weibo_btn);
+
+        //防止冲突写在里面
+        backtrackBtn.setOnClickListener(this);
+        loginByZhihuBtn.setOnClickListener(this);
+        loginBySinaWeiboBtn.setOnClickListener(this);
+        loginByTecentWeiboBtn.setOnClickListener(this);
+
+        /**
+         * 最新的：除获得屏幕的宽和高外还可以获得屏幕的密度。
+         */
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int widthScreen = dm.widthPixels;
+        int heightScreen = dm.heightPixels;
+
+        //设置屏幕的高度和宽度  屏幕适配 heightScreen * 9/15  heightScreen * 8/15
+        mPopupWindow = new PopupWindow(view, widthScreen, heightScreen);
+        mPopupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.popupwindow_background));
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setAnimationStyle(R.style.MyPopupWindow_anim_style);
+
+
+        mPopupWindow.showAtLocation(getView() , Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        //设置 背景的颜色为 0.5f 的透明度
+        getView().setAlpha(0.8f);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //当popwindow消失的时候，恢复背景的颜色。 backgroundAlpha(1.0f);
+                getView().setAlpha(1.0f);
+            }
+        });
 
     }
 
+
+    /**
+     * 启动我的收藏页面
+     */
+    @Override
+    public void showMyFavoritesActivity() {
+        Intent intent = FavoritesActivity.newIntent(getActivity());
+
+        startActivity(intent);
+    }
+
+
+    /**
+     * 启动ViewFlipper
+     */
     @Override
     public void startViewFlipperAnimation() {
         /**
@@ -403,8 +488,6 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         mPresenter = presenter;
     }
 
-
-
     @Override
     public void onRefresh() {
         mPresenter.refreshNews(mHandler);
@@ -415,6 +498,30 @@ public class NewsListFragment extends Fragment implements NewsListContract.View,
         switch (view.getId()){
             case R.id.fab_pick_date:
                 showDateActivity();
+                break;
+            case R.id.login_linearlayout_btn:
+                showLoginPopWindow();
+                break;
+            case R.id.backtrack_btn:
+                mPopupWindow.dismiss();
+                break;
+
+
+            //SlidingMenu里面的点击事件
+            case R.id.favorites_btn:
+                showMyFavoritesActivity();
+                break;
+            case R.id.messages_btn:
+                break;
+            case R.id.settings_btn:
+                break;
+
+
+            case R.id.login_by_zhihu:
+                break;
+            case R.id.sina_weibo_btn:
+                break;
+            case R.id.tecent_weibo_btn:
                 break;
         }
     }

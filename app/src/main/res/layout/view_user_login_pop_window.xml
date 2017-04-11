@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/color_primary"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#fff"
+        >
+        <ImageView
+            android:id="@id/backtrack_btn"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/login_pop_window"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginRight="30dp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:textSize="30dp"
+        android:layout_marginTop="60dp"
+        />
+
+
+    <Button
+        android:id="@+id/login_by_zhihu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginRight="90dp"
+        android:layout_marginLeft="90dp"
+        android:background="#fff"
+        android:text="@string/login_by_zhihu"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#0063f9"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_by_weibo"
+        android:layout_marginTop="30dp"
+        android:textColor="#dddddd"
+        android:textSize="16sp"
+        android:gravity="center"
+        />
+
+
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        >
+        <ImageView
+            android:id="@+id/sina_weibo_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_weibo_logo48"
+            />
+        <ImageView
+            android:id="@+id/tecent_weibo_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="18dp"
+            android:src="@drawable/ic_tecent_weibo_logo_white48"
+            />
+    </LinearLayout>
+
+</LinearLayout>

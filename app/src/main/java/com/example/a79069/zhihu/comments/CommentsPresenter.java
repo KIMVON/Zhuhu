@@ -1,6 +1,5 @@
 package com.example.a79069.zhihu.comments;
 
-import android.os.Message;
 
 import com.example.a79069.zhihu.data.NewsComment;
 import com.example.a79069.zhihu.data.source.AppRepository;
@@ -34,6 +33,10 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     }
 
 
+    /**
+     * 获取NewComment数据
+     * @param address
+     */
     @Override
     public void getComment(final String address) {
         mAppRepository.getNewsComments(address, new DataSource.NewsCommentsCallback() {
