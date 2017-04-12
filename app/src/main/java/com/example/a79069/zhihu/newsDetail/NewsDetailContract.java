@@ -28,5 +28,7 @@ public interface NewsDetailContract {
         void showAddFavoritesFailed();
 
         void showGiveUpAddFavorites();
+
+        void showToast(int resource);
     }
 }

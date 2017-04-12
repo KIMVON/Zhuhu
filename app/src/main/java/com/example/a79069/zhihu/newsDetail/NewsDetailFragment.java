@@ -141,11 +141,6 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_detail, container, false);
 
-//        Toolbar toolbar = (Toolbar) view.findViewById(R.id.news_list_toolbar);
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         mArticleImage = (ImageView) view.findViewById(R.id.article_image);
         mArticleTitleTextView = (TextView) view.findViewById(R.id.article_title);
 
@@ -345,20 +340,41 @@ public class NewsDetailFragment extends Fragment implements NewsDetailContract.V
         startActivity(intent);
     }
 
-
+    /**
+     * 展示添加收藏提示
+     */
     @Override
     public void showAddFavoritesSuccess() {
-        Toast.makeText(getActivity(), "已添加收藏", Toast.LENGTH_SHORT).show();
+        showToast(R.layout.view_toast);
     }
 
+    /**
+     * 展示添加收藏失败提示
+     */
     @Override
     public void showAddFavoritesFailed() {
         Toast.makeText(getActivity(), "添加失败", Toast.LENGTH_SHORT).show();
     }
 
+
+    /**
+     * 展示取消收藏提示
+     */
     @Override
     public void showGiveUpAddFavorites() {
-        Toast.makeText(getActivity(), "已取消收藏", Toast.LENGTH_SHORT).show();
+        showToast(R.layout.view_giveup_toast);
+    }
+
+    @Override
+    public void showToast(int resource) {
+        View view = LayoutInflater.from(getActivity()).inflate(resource , (ViewGroup) getView() , false);
+
+        Toast toast = new Toast(getActivity());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(view);
+        toast.setGravity(Gravity.CENTER , 0 , 0);
+
+        toast.show();
     }
 }
 
