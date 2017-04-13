@@ -5,7 +5,9 @@ import android.util.Log;
 import com.example.a79069.zhihu.data.FavoriteNews;
 import com.example.a79069.zhihu.data.NewsComment;
 import com.example.a79069.zhihu.data.NewsDetail;
+import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
+import com.example.a79069.zhihu.data.NewsTheme;
 import com.example.a79069.zhihu.data.source.LocalDataSource.LocalDataSource;
 import com.example.a79069.zhihu.data.source.RemoteDataSource.RemoteDataSource;
 import com.example.a79069.zhihu.util.HttpUtil;
@@ -99,7 +101,48 @@ public class AppRepository implements DataSource {
 
             @Override
             public void onFailed() {
+                callback.onFailed();
+            }
+        });
+    }
 
+
+    /**
+     * 获取新闻主题
+     * @param callback
+     */
+    @Override
+    public void getNewsTheme(final NewsThemeCallback callback) {
+        mRemoteDataSource.getNewsTheme(new NewsThemeCallback() {
+            @Override
+            public void onSuccess(List<NewsTheme> newsThemeList) {
+                callback.onSuccess(newsThemeList);
+            }
+
+            @Override
+            public void onFailed() {
+                callback.onFailed();
+            }
+        });
+    }
+
+
+    /**
+     * 获取新闻主题详细页面
+     * @param address
+     * @param contentCallback
+     */
+    @Override
+    public void getNewsThemeConent(String address, final NewsThemeContentCallback contentCallback) {
+        mRemoteDataSource.getNewsThemeConent(address, new NewsThemeContentCallback() {
+            @Override
+            public void onSuccess(List<NewsSimple> newsSimpleList) {
+                contentCallback.onSuccess(newsSimpleList);
+            }
+
+            @Override
+            public void onFailed() {
+                contentCallback.onFailed();
             }
         });
     }

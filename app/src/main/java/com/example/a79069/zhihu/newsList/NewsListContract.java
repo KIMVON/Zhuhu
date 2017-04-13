@@ -5,7 +5,11 @@ import android.widget.ImageView;
 
 import com.example.a79069.zhihu.BasePresenter;
 import com.example.a79069.zhihu.BaseView;
+import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
+import com.example.a79069.zhihu.data.NewsTheme;
+
+import java.util.List;
 
 /**
  * Created by 79069 on 2017/3/23.
@@ -13,10 +17,15 @@ import com.example.a79069.zhihu.data.NewsSimpleList;
 
 public interface NewsListContract {
     interface Presenter extends BasePresenter{
-        void refreshNews(Handler handler);
+        void refreshNews(String address , Handler handler);
 
         void onLoad(Handler handler);
 
+        void getTodayNews(Handler handler);
+
+        void getNewsTheme(Handler handler);
+
+        void getNewsThemeContent(String address , final Handler handler);
     }
 
 
@@ -35,7 +44,11 @@ public interface NewsListContract {
 
         void showDateActivity();
 
-        void setAdapter(NewsSimpleList newsSimpleList);
+        void setAdapter(List<NewsSimple> newsSimpleList);
+
+        void onClickHomeBtn();
+
+        void setSlidingAdapter(List<NewsTheme> newsThemeList);
 
         void startService();
 

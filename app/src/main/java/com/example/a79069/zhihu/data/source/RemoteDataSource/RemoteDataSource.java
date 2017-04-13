@@ -7,6 +7,7 @@ import com.example.a79069.zhihu.data.NewsComment;
 import com.example.a79069.zhihu.data.NewsDetail;
 import com.example.a79069.zhihu.data.NewsSimple;
 import com.example.a79069.zhihu.data.NewsSimpleList;
+import com.example.a79069.zhihu.data.NewsTheme;
 import com.example.a79069.zhihu.data.source.DataSource;
 import com.example.a79069.zhihu.util.HttpUtil;
 
@@ -48,10 +49,11 @@ public class RemoteDataSource implements DataSource {
 
     /**
      * 获取照片地址
+     *
      * @param address
      * @param callback
      */
-    public void getLaunchImage(String address , ImageURLCallback callback){
+    public void getLaunchImage(String address, ImageURLCallback callback) {
 
 
     }
@@ -97,7 +99,7 @@ public class RemoteDataSource implements DataSource {
 
             @Override
             public void onFailed() {
-
+                callback.onFailed();
             }
         });
     }
@@ -111,7 +113,7 @@ public class RemoteDataSource implements DataSource {
      */
     @Override
     public void getNewsDetail(String address, final NewsDetailCallback callback) {
-        checkNotNull(address , "该地址为null");
+        checkNotNull(address, "该地址为null");
         checkNotNull(callback);
 
         HttpUtil.sendRequestWithHttpURLConntection(address, new JSONCallback() {
@@ -123,6 +125,51 @@ public class RemoteDataSource implements DataSource {
             @Override
             public void onFailed() {
 
+            }
+        });
+    }
+
+    /**
+     * 获取新闻主题
+     *
+     * @param callback
+     */
+    @Override
+    public void getNewsTheme(final NewsThemeCallback callback) {
+        checkNotNull(callback, "getNewsTheme失败了");
+
+        String address = "http://news-at.zhihu.com/api/4/themes";
+
+        HttpUtil.sendRequestWithOkHttp(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailed();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String jsonData = response.body().string();
+
+                callback.onSuccess(parseNewsTheme(jsonData));
+            }
+        });
+
+    }
+
+    @Override
+    public void getNewsThemeConent(String address, final NewsThemeContentCallback contentCallback) {
+        checkNotNull(address);
+        checkNotNull(contentCallback);
+
+        HttpUtil.sendRequestWithOkHttp(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                contentCallback.onFailed();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                contentCallback.onSuccess(parseNewsThemeContent(response.body().string()));
             }
         });
     }
@@ -140,6 +187,7 @@ public class RemoteDataSource implements DataSource {
 
     /**
      * 获取所有评论
+     *
      * @param address
      * @param callback
      */
@@ -149,7 +197,7 @@ public class RemoteDataSource implements DataSource {
         checkNotNull(callback);
 
 
-        HttpUtil.sendRequestWithOkHttp(address , new Callback() {
+        HttpUtil.sendRequestWithOkHttp(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -163,9 +211,9 @@ public class RemoteDataSource implements DataSource {
     }
 
 
-
     /**
      * 解析JSON
+     *
      * @param jsonData
      * @return
      */
@@ -205,6 +253,7 @@ public class RemoteDataSource implements DataSource {
 
     /**
      * 解析热点消息的JSON
+     *
      * @param jsonData
      * @return
      */
@@ -239,6 +288,7 @@ public class RemoteDataSource implements DataSource {
 
     /**
      * 解析详细页面JSON
+     *
      * @param jsonData
      * @return
      */
@@ -260,7 +310,7 @@ public class RemoteDataSource implements DataSource {
 
             newsDetail.setId(jsonObject.getString("id"));
 
-            newsDetail.setCssURL(jsonObject.getString("css").substring(2 , jsonObject.getString("css").length()-2).replaceAll("\\\\" , ""));
+            newsDetail.setCssURL(jsonObject.getString("css").substring(2, jsonObject.getString("css").length() - 2).replaceAll("\\\\", ""));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -272,16 +322,17 @@ public class RemoteDataSource implements DataSource {
 
     /**
      * 解析评论列表JSON
+     *
      * @param jsonData
      * @return
      */
-    private List<NewsComment> parseNewsComment(String jsonData){
+    private List<NewsComment> parseNewsComment(String jsonData) {
         List<NewsComment> newsCommentList = new ArrayList<>();
         NewsComment newsComment = null;
         try {
             JSONObject object = new JSONObject(jsonData);
             JSONArray array = object.getJSONArray("comments");
-            for(int i = 0 ; i < array.length() ; i++){
+            for (int i = 0; i < array.length(); i++) {
                 JSONObject jsonObject = array.getJSONObject(i);
                 newsComment = new NewsComment();
 
@@ -300,5 +351,67 @@ public class RemoteDataSource implements DataSource {
 
 
         return newsCommentList;
+    }
+
+    /**
+     * 解析新闻主题
+     *
+     * @param jsonData
+     * @return
+     */
+    private List<NewsTheme> parseNewsTheme(String jsonData) {
+        List<NewsTheme> newsThemeList = new ArrayList<>();
+
+        try {
+            JSONObject object = new JSONObject(jsonData);
+            JSONArray jsonArray = object.getJSONArray("others");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                NewsTheme newsTheme = new NewsTheme();
+
+                newsTheme.setHeaderImage(jsonObject.getString("thumbnail"));
+                newsTheme.setDescription(jsonObject.getString("description"));
+                newsTheme.setName(jsonObject.getString("name"));
+                newsTheme.setId(jsonObject.getString("id"));
+
+                newsThemeList.add(newsTheme);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return newsThemeList;
+    }
+
+
+    /**
+     * 解析新闻主题内容
+     *
+     * @param jsonData
+     * @return
+     */
+    private List<NewsSimple> parseNewsThemeContent(String jsonData) {
+        List<NewsSimple> newsSimpleList = new ArrayList<>();
+
+        try {
+            JSONObject object = new JSONObject(jsonData);
+            JSONArray jsonArray = object.getJSONArray("stories");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                NewsSimple newsSimple = new NewsSimple();
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                if (jsonObject.has("images")) {
+                    newsSimple.setImage(jsonObject.getString("images"));
+                }
+                newsSimple.setId(jsonObject.getString("id"));
+                newsSimple.setTitle(jsonObject.getString("title"));
+
+                newsSimpleList.add(newsSimple);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return newsSimpleList;
     }
 }

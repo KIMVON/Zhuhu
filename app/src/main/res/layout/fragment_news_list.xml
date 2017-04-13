@@ -43,6 +43,7 @@
                 app:layout_collapseMode="pin"
                 >
                 <TextView
+                    android:id="@+id/title_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/today_news"

@@ -47,6 +47,16 @@ public class LocalDataSource implements DataSource {
 
     }
 
+    @Override
+    public void getNewsTheme(NewsThemeCallback callback) {
+
+    }
+
+    @Override
+    public void getNewsThemeConent(String address, NewsThemeContentCallback contentCallback) {
+
+    }
+
 
     /**
      * 获取我的收藏列表
